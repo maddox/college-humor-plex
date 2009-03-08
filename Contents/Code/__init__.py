@@ -55,7 +55,7 @@ def AddVideos(site, dir, path, parentSectionID = ''):
     except: video_path = ''
     
     # d = DirectoryItem(CH_PLUGIN_PREFIX+'/play'+video_path, title, thumb, summary)
-    d = VideoItem(GetFlvUrl(video_path), title, summary, '', thumb)
+    d = VideoItem(CH_PLUGIN_PREFIX+'/play'+video_path, title, summary, '', thumb)
     dir.AppendItem(d)
     
     
@@ -107,14 +107,10 @@ def HandleVideosRequest(pathNouns, count):
     dir = MediaContainer("art-default.jpg", 'Details', "College Humor", title)
     site = XML.ElementFromString(HTTP.GetCached(CH_ROOT + "/tag:" + tag, CACHE_INTERVAL), True)
     AddVideos(site, dir, "//div[@id='tags_listing'][@class='all listing']/ul[@class='media_list cfx']/li[@class='video']")
-  # elif pathNouns[0] == 'play':
-  #   title = pathNouns[1].replace('_', ' ')
-  #   Log.Add(title)
-  #   tag = title.replace(' ', '')
-  #   dir = MediaContainer("art-default.jpg", 'Details', "College Humor", title)
-  # 
-  #   d = VideoItem(GetFlvUrl(pathNouns[1]), 'Play', '', '', '')
-  #   dir.AppendItem(d)
+  elif pathNouns[0] == 'play':
+    flv_url = GetFlvUrl(pathNouns[1])
+    Log.Add(flv_url)
+    return Plugin.Redirect(flv_url)
 
 
 
