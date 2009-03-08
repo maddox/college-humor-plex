@@ -65,12 +65,8 @@ def HandleVideosRequest(pathNouns, count):
   dir = MediaContainer("art-default.jpg", None, "College Humor")
   dir.SetAttr("content", "items")
   
-  
   Log.Add("Count: " + str(count))
   Log.Add("pathNouns: " + str(pathNouns))
-  
-  show_matcher = re.compile("^show")
-  play_matcher = re.compile("^play")
 
   # Top level menu.
   if count == 0:
