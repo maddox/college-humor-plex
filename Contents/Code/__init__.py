@@ -74,26 +74,27 @@ def HandleVideosRequest(pathNouns, count):
     dir.AppendItem(DirectoryItem("recent", "Recently Added"))
     dir.AppendItem(DirectoryItem("most_viewed", "Most Viewed"))
     dir.AppendItem(DirectoryItem("most_liked", "Most Liked"))
-  elif count == 1 and pathNouns[0] == 'shows':
-    dir = MediaContainer("art-default.jpg", 'Details', "College Humor", pathNouns[0])
-    dir.AppendItem(DirectoryItem("prank_wars", "Prank Wars", Plugin.ExposedResourcePath("icon-prank-wars.png"), 'The epic battle of Streeter Vs. Amir'))
-    dir.AppendItem(DirectoryItem("hardly_working", "Hardly Working", Plugin.ExposedResourcePath("icon-hardly-working.png")))
-    dir.AppendItem(DirectoryItem("jake_and_amir", "Jake & Amir", Plugin.ExposedResourcePath("icon-jake-amir.png"), 'BFFS. No were not.'))
-    dir.AppendItem(DirectoryItem("bleep_bloop", "Bleep Bloop", Plugin.ExposedResourcePath("icon-bleep-bloop.png"), 'The videogames talk show hosted by Jeff Rubin.'))
-    dir.AppendItem(DirectoryItem("street_fighter_the_later_years", "Street Fighter: The Later Years", Plugin.ExposedResourcePath("icon-street-fighter.png")))
-    dir.AppendItem(DirectoryItem("michael_showalter", "The Michael Showalter Showalter", Plugin.ExposedResourcePath("icon-showalter.png")))
-  elif count == 1 and pathNouns[0] == 'recent':
-    dir = MediaContainer("art-default.jpg", 'Details', "College Humor", pathNouns[0])
-    site = XML.ElementFromString(HTTP.GetCached(CH_ROOT + CH_RECENT, CACHE_INTERVAL), True)
-    AddVideos(site, dir, "//div[@id='tab_content_0']/ul[@class='media_list cfx']/li[@class='video']")
-  elif count == 1 and pathNouns[0] == 'most_viewed':
-    dir = MediaContainer("art-default.jpg", 'Details', "College Humor", pathNouns[0])
-    site = XML.ElementFromString(HTTP.GetCached(CH_ROOT + CH_VIEWED, CACHE_INTERVAL), True)
-    AddVideos(site, dir, "//div[@id='tab_content_1']/ul[@class='media_list cfx']/li[@class='video']")
-  elif count == 1 and pathNouns[0] == 'most_liked':
-    dir = MediaContainer("art-default.jpg", 'Details', "College Humor", pathNouns[0])
-    site = XML.ElementFromString(HTTP.GetCached(CH_ROOT + CH_LIKED, CACHE_INTERVAL), True)
-    AddVideos(site, dir, "//div[@id='tab_content_2']/ul[@class='media_list cfx']/li[@class='video']")
+  elif count == 1:
+    title = pathNouns[0].replace('_', ' ')
+    dir = MediaContainer("art-default.jpg", 'Details', "College Humor", title)
+    
+    if pathNouns[0] == 'shows':
+      dir.AppendItem(DirectoryItem("prank_wars", "Prank Wars", Plugin.ExposedResourcePath("icon-prank-wars.png"), 'The epic battle of Streeter Vs. Amir'))
+      dir.AppendItem(DirectoryItem("hardly_working", "Hardly Working", Plugin.ExposedResourcePath("icon-hardly-working.png")))
+      dir.AppendItem(DirectoryItem("jake_and_amir", "Jake & Amir", Plugin.ExposedResourcePath("icon-jake-amir.png"), 'BFFS. No were not.'))
+      dir.AppendItem(DirectoryItem("bleep_bloop", "Bleep Bloop", Plugin.ExposedResourcePath("icon-bleep-bloop.png"), 'The videogames talk show hosted by Jeff Rubin.'))
+      dir.AppendItem(DirectoryItem("street_fighter_the_later_years", "Street Fighter: The Later Years", Plugin.ExposedResourcePath("icon-street-fighter.png")))
+      dir.AppendItem(DirectoryItem("michael_showalter", "The Michael Showalter Showalter", Plugin.ExposedResourcePath("icon-showalter.png")))
+    elif pathNouns[0] == 'recent':
+      site = XML.ElementFromString(HTTP.GetCached(CH_ROOT + CH_RECENT, CACHE_INTERVAL), True)
+      AddVideos(site, dir, "//div[@id='tab_content_0']/ul[@class='media_list cfx']/li[@class='video']")
+    elif pathNouns[0] == 'most_viewed':
+      site = XML.ElementFromString(HTTP.GetCached(CH_ROOT + CH_VIEWED, CACHE_INTERVAL), True)
+      AddVideos(site, dir, "//div[@id='tab_content_1']/ul[@class='media_list cfx']/li[@class='video']")
+    elif pathNouns[0] == 'most_liked':
+      site = XML.ElementFromString(HTTP.GetCached(CH_ROOT + CH_LIKED, CACHE_INTERVAL), True)
+      AddVideos(site, dir, "//div[@id='tab_content_2']/ul[@class='media_list cfx']/li[@class='video']")
+
   elif count == 2 and pathNouns[1] == 'prank_wars':
     title = pathNouns[1].replace('_', ' ')
     dir = MediaContainer("art-default.jpg", 'Details', "College Humor", title)
